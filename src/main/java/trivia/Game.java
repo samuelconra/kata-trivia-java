@@ -90,7 +90,7 @@ public class Game implements IGame {
 
       } else {
 
-         System.out.println("Answer was corrent!!!!");
+         System.out.println("Answer was correct!!!!");
          currentPlayer().addCoin();
          System.out.println(currentPlayer().name
                             + " now has "
