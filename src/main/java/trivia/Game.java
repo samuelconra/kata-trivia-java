@@ -51,6 +51,8 @@ public class Game implements IGame {
    }
 
    public void roll(int roll) {
+      final int BOARD_SIZE = 12;
+
       System.out.println(players.get(currentPlayer) + " is the current player");
       System.out.println("They have rolled a " + roll);
 
@@ -60,7 +62,7 @@ public class Game implements IGame {
 
             System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
             positions[currentPlayer] = positions[currentPlayer] + roll;
-            if (positions[currentPlayer] > 12) positions[currentPlayer] = positions[currentPlayer] - 12;
+            if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
 
             System.out.println(players.get(currentPlayer)
                                + "'s new location is "
@@ -75,7 +77,7 @@ public class Game implements IGame {
       } else {
 
          positions[currentPlayer] = positions[currentPlayer] + roll;
-         if (positions[currentPlayer] > 12) positions[currentPlayer] = positions[currentPlayer] - 12;
+         if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
 
          System.out.println(players.get(currentPlayer)
                             + "'s new location is "
