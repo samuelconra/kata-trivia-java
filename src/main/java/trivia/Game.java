@@ -172,3 +172,11 @@ public class Game implements IGame {
       if (currentPlayer == players.size()) currentPlayer = 0;
    }
 }
+
+class Player {
+    final String name;
+
+    Player(String name) {
+        this.name = name;
+    }
+}
