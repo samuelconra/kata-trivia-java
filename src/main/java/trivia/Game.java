@@ -160,7 +160,7 @@ public class Game implements IGame {
 
 
    private boolean didPlayerWin() {
-      return !(currentPlayer().coins == COINS_TO_WIN);
+      return !currentPlayer().hasWon(COINS_TO_WIN);
    }
 
    private void nextPlayer() {
@@ -189,5 +189,9 @@ class Player {
 
    void advanceTo(int newPosition) {
       position = newPosition;
+   }
+
+   boolean hasWon(int coinsToWin) {
+      return coins == coinsToWin;
    }
 }
