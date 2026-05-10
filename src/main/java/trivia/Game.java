@@ -6,7 +6,6 @@ import java.util.LinkedList;
 // REFACTOR ME
 public class Game implements IGame {
    ArrayList<Player> players = new ArrayList<>();
-   int[] coins = new int[6];
    boolean[] inPenaltyBox = new boolean[6];
 
    LinkedList popQuestions = new LinkedList();
@@ -39,7 +38,6 @@ public class Game implements IGame {
    }
 
    public boolean add(String playerName) {
-      coins[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
       players.add(new Player(playerName));
 
@@ -117,10 +115,10 @@ public class Game implements IGame {
       if (inPenaltyBox[currentPlayer]) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
-            coins[currentPlayer]++;
+            players.get(currentPlayer).coins++;
             System.out.println(players.get(currentPlayer).name
                                + " now has "
-                               + coins[currentPlayer]
+                               + players.get(currentPlayer).coins
                                + " Gold Coins.");
 
             boolean winner = didPlayerWin();
@@ -136,10 +134,10 @@ public class Game implements IGame {
       } else {
 
          System.out.println("Answer was corrent!!!!");
-         coins[currentPlayer]++;
+         players.get(currentPlayer).coins++;
          System.out.println(players.get(currentPlayer).name
                             + " now has "
-                            + coins[currentPlayer]
+                            + players.get(currentPlayer).coins
                             + " Gold Coins.");
 
          boolean winner = didPlayerWin();
@@ -160,7 +158,7 @@ public class Game implements IGame {
 
 
    private boolean didPlayerWin() {
-      return !(coins[currentPlayer] == COINS_TO_WIN);
+      return !(players.get(currentPlayer).coins == COINS_TO_WIN);
    }
 
    private void nextPlayer() {
@@ -171,7 +169,8 @@ public class Game implements IGame {
 
 class Player {
     final String name;
-    int position = 1;
+    int position = 1; 
+    int coins = 0;
 
     Player(String name) {
         this.name = name;
