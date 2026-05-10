@@ -19,7 +19,9 @@ public class Game implements IGame {
    boolean isGettingOutOfPenaltyBox;
 
    public Game() {
-      for (int i = 0; i < 50; i++) {
+      final int MAX_QUESTIONS_PER_CATEGORY = 50;
+
+      for (int i = 0; i < MAX_QUESTIONS_PER_CATEGORY; i++) {
          popQuestions.addLast("Pop Question " + i);
          scienceQuestions.addLast(("Science Question " + i));
          sportsQuestions.addLast(("Sports Question " + i));
