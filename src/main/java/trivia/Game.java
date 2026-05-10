@@ -71,6 +71,7 @@ public class Game implements IGame {
    public boolean handleCorrectAnswer() {
       if (currentPlayer().inPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
+            currentPlayer().exitPenaltyBox();
             System.out.println("Answer was correct!!!!");
             currentPlayer().addCoin();
             System.out.println(currentPlayer().name
@@ -160,6 +161,10 @@ class Player {
 
    boolean hasWon(int coinsToWin) {
       return coins == coinsToWin;
+   }
+
+   void exitPenaltyBox() {
+      inPenaltyBox = false;
    }
 }
 
