@@ -164,6 +164,7 @@ public class Game implements IGame {
 
 
    private boolean didPlayerWin() {
-      return !(coins[currentPlayer] == 6);
+      final int COINS_TO_WIN = 6;
+      return !(coins[currentPlayer] == COINS_TO_WIN);
    }
 }
