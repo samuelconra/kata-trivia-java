@@ -44,34 +44,15 @@ public class Game implements IGame {
       if (currentPlayer().inPenaltyBox) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
-
             System.out.println(currentPlayer().name + " is getting out of the penalty box");
-            int newPosition = currentPlayer().position + roll;
-            if (newPosition > BOARD_SIZE) newPosition = newPosition - BOARD_SIZE;
-            currentPlayer().advanceTo(newPosition);
-
-            System.out.println(currentPlayer().name
-                               + "'s new location is "
-                               + currentPlayer().position);
-            System.out.println("The category is " + currentCategory());
-            deck.askQuestion(currentCategory());
+            movePlayerAndAskQuestion(roll);
          } else {
             System.out.println(currentPlayer().name + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
          }
-
       } else {
-         int newPosition = currentPlayer().position + roll;
-         if (newPosition > BOARD_SIZE) newPosition = newPosition - BOARD_SIZE;
-         currentPlayer().advanceTo(newPosition);
-
-         System.out.println(currentPlayer().name
-                            + "'s new location is "
-                            + currentPlayer().position);
-         System.out.println("The category is " + currentCategory());
-         deck.askQuestion(currentCategory());
+         movePlayerAndAskQuestion(roll);
       }
-
    }
 
    private String currentCategory() {
@@ -140,6 +121,18 @@ public class Game implements IGame {
    private void nextPlayer() {
       currentPlayer++;
       if (currentPlayer == players.size()) currentPlayer = 0;
+   }
+
+   private void movePlayerAndAskQuestion(int roll) {
+      int newPosition = currentPlayer().position + roll;
+      if (newPosition > BOARD_SIZE) newPosition = newPosition - BOARD_SIZE;
+      currentPlayer().advanceTo(newPosition);
+
+      System.out.println(currentPlayer().name
+                           + "'s new location is "
+                           + currentPlayer().position);
+      System.out.println("The category is " + currentCategory());
+      deck.askQuestion(currentCategory());
    }
 }
 
