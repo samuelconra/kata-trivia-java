@@ -48,36 +48,40 @@ public class Game implements IGame {
       return players.size();
    }
 
+   private Player currentPlayer() {
+      return players.get(currentPlayer);
+   }
+
    public void roll(int roll) {
-      System.out.println(players.get(currentPlayer).name + " is the current player");
+      System.out.println(currentPlayer().name + " is the current player");
       System.out.println("They have rolled a " + roll);
 
-      if (players.get(currentPlayer).inPenaltyBox) {
+      if (currentPlayer().inPenaltyBox) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
-            System.out.println(players.get(currentPlayer).name + " is getting out of the penalty box");
-            players.get(currentPlayer).position = players.get(currentPlayer).position + roll;
-            if (players.get(currentPlayer).position > BOARD_SIZE) players.get(currentPlayer).position = players.get(currentPlayer).position - BOARD_SIZE;
+            System.out.println(currentPlayer().name + " is getting out of the penalty box");
+            currentPlayer().position = currentPlayer().position + roll;
+            if (currentPlayer().position > BOARD_SIZE) currentPlayer().position = currentPlayer().position - BOARD_SIZE;
 
-            System.out.println(players.get(currentPlayer).name
+            System.out.println(currentPlayer().name
                                + "'s new location is "
-                               + players.get(currentPlayer).position);
+                               + currentPlayer().position);
             System.out.println("The category is " + currentCategory());
             askQuestion();
          } else {
-            System.out.println(players.get(currentPlayer).name + " is not getting out of the penalty box");
+            System.out.println(currentPlayer().name + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
          }
 
       } else {
 
-         players.get(currentPlayer).position = players.get(currentPlayer).position + roll;
-         if (players.get(currentPlayer).position > BOARD_SIZE) players.get(currentPlayer).position = players.get(currentPlayer).position - BOARD_SIZE;
+         currentPlayer().position = currentPlayer().position + roll;
+         if (currentPlayer().position > BOARD_SIZE) currentPlayer().position = currentPlayer().position - BOARD_SIZE;
 
-         System.out.println(players.get(currentPlayer).name
+         System.out.println(currentPlayer().name
                             + "'s new location is "
-                            + players.get(currentPlayer).position);
+                            + currentPlayer().position);
          System.out.println("The category is " + currentCategory());
          askQuestion();
       }
@@ -97,26 +101,26 @@ public class Game implements IGame {
 
 
    private String currentCategory() {
-      if (players.get(currentPlayer).position - 1 == 0) return "Pop";
-      if (players.get(currentPlayer).position - 1 == 4) return "Pop";
-      if (players.get(currentPlayer).position - 1 == 8) return "Pop";
-      if (players.get(currentPlayer).position - 1 == 1) return "Science";
-      if (players.get(currentPlayer).position - 1 == 5) return "Science";
-      if (players.get(currentPlayer).position - 1 == 9) return "Science";
-      if (players.get(currentPlayer).position - 1 == 2) return "Sports";
-      if (players.get(currentPlayer).position - 1 == 6) return "Sports";
-      if (players.get(currentPlayer).position - 1 == 10) return "Sports";
+      if (currentPlayer().position - 1 == 0) return "Pop";
+      if (currentPlayer().position - 1 == 4) return "Pop";
+      if (currentPlayer().position - 1 == 8) return "Pop";
+      if (currentPlayer().position - 1 == 1) return "Science";
+      if (currentPlayer().position - 1 == 5) return "Science";
+      if (currentPlayer().position - 1 == 9) return "Science";
+      if (currentPlayer().position - 1 == 2) return "Sports";
+      if (currentPlayer().position - 1 == 6) return "Sports";
+      if (currentPlayer().position - 1 == 10) return "Sports";
       return "Rock";
    }
 
    public boolean handleCorrectAnswer() {
-      if (players.get(currentPlayer).inPenaltyBox) {
+      if (currentPlayer().inPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
-            players.get(currentPlayer).coins++;
-            System.out.println(players.get(currentPlayer).name
+            currentPlayer().coins++;
+            System.out.println(currentPlayer().name
                                + " now has "
-                               + players.get(currentPlayer).coins
+                               + currentPlayer().coins
                                + " Gold Coins.");
 
             boolean winner = didPlayerWin();
@@ -132,10 +136,10 @@ public class Game implements IGame {
       } else {
 
          System.out.println("Answer was corrent!!!!");
-         players.get(currentPlayer).coins++;
-         System.out.println(players.get(currentPlayer).name
+         currentPlayer().coins++;
+         System.out.println(currentPlayer().name
                             + " now has "
-                            + players.get(currentPlayer).coins
+                            + currentPlayer().coins
                             + " Gold Coins.");
 
          boolean winner = didPlayerWin();
@@ -147,8 +151,8 @@ public class Game implements IGame {
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
-      System.out.println(players.get(currentPlayer).name + " was sent to the penalty box");
-      players.get(currentPlayer).inPenaltyBox = true;
+      System.out.println(currentPlayer().name + " was sent to the penalty box");
+      currentPlayer().inPenaltyBox = true;
 
       nextPlayer();
       return true;
@@ -156,7 +160,7 @@ public class Game implements IGame {
 
 
    private boolean didPlayerWin() {
-      return !(players.get(currentPlayer).coins == COINS_TO_WIN);
+      return !(currentPlayer().coins == COINS_TO_WIN);
    }
 
    private void nextPlayer() {
