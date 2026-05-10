@@ -3,7 +3,6 @@ package trivia;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-// REFACTOR ME
 public class Game implements IGame {
    ArrayList<Player> players = new ArrayList<>();
 
@@ -117,7 +116,7 @@ public class Game implements IGame {
       if (currentPlayer().inPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
-            currentPlayer().coins++;
+            currentPlayer().addCoin();
             System.out.println(currentPlayer().name
                                + " now has "
                                + currentPlayer().coins
@@ -136,7 +135,7 @@ public class Game implements IGame {
       } else {
 
          System.out.println("Answer was corrent!!!!");
-         currentPlayer().coins++;
+         currentPlayer().addCoin();
          System.out.println(currentPlayer().name
                             + " now has "
                             + currentPlayer().coins
@@ -152,7 +151,7 @@ public class Game implements IGame {
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
       System.out.println(currentPlayer().name + " was sent to the penalty box");
-      currentPlayer().inPenaltyBox = true;
+      currentPlayer().sendToPenaltyBox();
 
       nextPlayer();
       return true;
@@ -170,12 +169,20 @@ public class Game implements IGame {
 }
 
 class Player {
-    final String name;
-    int position = 1; 
-    int coins = 0; 
-    boolean inPenaltyBox = false;
+   final String name;
+   int position = 1; 
+   int coins = 0; 
+   boolean inPenaltyBox = false;
 
-    Player(String name) {
-        this.name = name;
-    }
+   Player(String name) {
+      this.name = name;
+   }
+
+   void addCoin() {
+      coins++;
+   }
+
+   void sendToPenaltyBox() {
+      inPenaltyBox = true;
+   }
 }
