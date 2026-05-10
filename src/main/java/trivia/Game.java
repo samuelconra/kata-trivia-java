@@ -6,7 +6,6 @@ import java.util.LinkedList;
 // REFACTOR ME
 public class Game implements IGame {
    ArrayList<Player> players = new ArrayList<>();
-   int[] positions = new int[6];
    int[] coins = new int[6];
    boolean[] inPenaltyBox = new boolean[6];
 
@@ -40,7 +39,6 @@ public class Game implements IGame {
    }
 
    public boolean add(String playerName) {
-      positions[howManyPlayers()] = 1;
       coins[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
       players.add(new Player(playerName));
@@ -63,12 +61,12 @@ public class Game implements IGame {
             isGettingOutOfPenaltyBox = true;
 
             System.out.println(players.get(currentPlayer).name + " is getting out of the penalty box");
-            positions[currentPlayer] = positions[currentPlayer] + roll;
-            if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
+            players.get(currentPlayer).position = players.get(currentPlayer).position + roll;
+            if (players.get(currentPlayer).position > BOARD_SIZE) players.get(currentPlayer).position = players.get(currentPlayer).position - BOARD_SIZE;
 
             System.out.println(players.get(currentPlayer).name
                                + "'s new location is "
-                               + positions[currentPlayer]);
+                               + players.get(currentPlayer).position);
             System.out.println("The category is " + currentCategory());
             askQuestion();
          } else {
@@ -78,12 +76,12 @@ public class Game implements IGame {
 
       } else {
 
-         positions[currentPlayer] = positions[currentPlayer] + roll;
-         if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
+         players.get(currentPlayer).position = players.get(currentPlayer).position + roll;
+         if (players.get(currentPlayer).position > BOARD_SIZE) players.get(currentPlayer).position = players.get(currentPlayer).position - BOARD_SIZE;
 
          System.out.println(players.get(currentPlayer).name
                             + "'s new location is "
-                            + positions[currentPlayer]);
+                            + players.get(currentPlayer).position);
          System.out.println("The category is " + currentCategory());
          askQuestion();
       }
@@ -103,15 +101,15 @@ public class Game implements IGame {
 
 
    private String currentCategory() {
-      if (positions[currentPlayer] - 1 == 0) return "Pop";
-      if (positions[currentPlayer] - 1 == 4) return "Pop";
-      if (positions[currentPlayer] - 1 == 8) return "Pop";
-      if (positions[currentPlayer] - 1 == 1) return "Science";
-      if (positions[currentPlayer] - 1 == 5) return "Science";
-      if (positions[currentPlayer] - 1 == 9) return "Science";
-      if (positions[currentPlayer] - 1 == 2) return "Sports";
-      if (positions[currentPlayer] - 1 == 6) return "Sports";
-      if (positions[currentPlayer] - 1 == 10) return "Sports";
+      if (players.get(currentPlayer).position - 1 == 0) return "Pop";
+      if (players.get(currentPlayer).position - 1 == 4) return "Pop";
+      if (players.get(currentPlayer).position - 1 == 8) return "Pop";
+      if (players.get(currentPlayer).position - 1 == 1) return "Science";
+      if (players.get(currentPlayer).position - 1 == 5) return "Science";
+      if (players.get(currentPlayer).position - 1 == 9) return "Science";
+      if (players.get(currentPlayer).position - 1 == 2) return "Sports";
+      if (players.get(currentPlayer).position - 1 == 6) return "Sports";
+      if (players.get(currentPlayer).position - 1 == 10) return "Sports";
       return "Rock";
    }
 
@@ -173,6 +171,7 @@ public class Game implements IGame {
 
 class Player {
     final String name;
+    int position = 1;
 
     Player(String name) {
         this.name = name;
