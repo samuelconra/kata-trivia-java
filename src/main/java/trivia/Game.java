@@ -56,16 +56,8 @@ public class Game implements IGame {
    }
 
    private String currentCategory() {
-      if (currentPlayer().position - 1 == 0) return "Pop";
-      if (currentPlayer().position - 1 == 4) return "Pop";
-      if (currentPlayer().position - 1 == 8) return "Pop";
-      if (currentPlayer().position - 1 == 1) return "Science";
-      if (currentPlayer().position - 1 == 5) return "Science";
-      if (currentPlayer().position - 1 == 9) return "Science";
-      if (currentPlayer().position - 1 == 2) return "Sports";
-      if (currentPlayer().position - 1 == 6) return "Sports";
-      if (currentPlayer().position - 1 == 10) return "Sports";
-      return "Rock";
+      String[] categories = {"Pop", "Science", "Sports", "Rock"};
+      return categories[(currentPlayer().position - 1) % 4];
    }
 
    public boolean handleCorrectAnswer() {
