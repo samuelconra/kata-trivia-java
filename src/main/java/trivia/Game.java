@@ -2,14 +2,13 @@ package trivia;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class Game implements IGame {
    ArrayList<Player> players = new ArrayList<>();
 
-   LinkedList popQuestions = new LinkedList();
-   LinkedList scienceQuestions = new LinkedList();
-   LinkedList sportsQuestions = new LinkedList();
-   LinkedList rockQuestions = new LinkedList();
+   QuestionDeck deck = new QuestionDeck(MAX_QUESTIONS_PER_CATEGORY);
 
    int currentPlayer = 0;
    boolean isGettingOutOfPenaltyBox;
@@ -17,19 +16,6 @@ public class Game implements IGame {
    private static final int MAX_QUESTIONS_PER_CATEGORY = 50;
    private static final int BOARD_SIZE = 12;
    private static final int COINS_TO_WIN = 6;
-
-   public Game() {
-      for (int i = 0; i < MAX_QUESTIONS_PER_CATEGORY; i++) {
-         popQuestions.addLast("Pop Question " + i);
-         scienceQuestions.addLast(("Science Question " + i));
-         sportsQuestions.addLast(("Sports Question " + i));
-         rockQuestions.addLast(createRockQuestion(i));
-      }
-   }
-
-   public String createRockQuestion(int index) {
-      return "Rock Question " + index;
-   }
 
    public boolean hasEnoughPlayers() {
       return (howManyPlayers() >= 2);
@@ -68,7 +54,7 @@ public class Game implements IGame {
                                + "'s new location is "
                                + currentPlayer().position);
             System.out.println("The category is " + currentCategory());
-            askQuestion();
+            deck.askQuestion(currentCategory());
          } else {
             System.out.println(currentPlayer().name + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
@@ -83,22 +69,10 @@ public class Game implements IGame {
                             + "'s new location is "
                             + currentPlayer().position);
          System.out.println("The category is " + currentCategory());
-         askQuestion();
+         deck.askQuestion(currentCategory());
       }
 
    }
-
-   private void askQuestion() {
-      if (currentCategory() == "Pop")
-         System.out.println(popQuestions.removeFirst());
-      if (currentCategory() == "Science")
-         System.out.println(scienceQuestions.removeFirst());
-      if (currentCategory() == "Sports")
-         System.out.println(sportsQuestions.removeFirst());
-      if (currentCategory() == "Rock")
-         System.out.println(rockQuestions.removeFirst());
-   }
-
 
    private String currentCategory() {
       if (currentPlayer().position - 1 == 0) return "Pop";
@@ -193,5 +167,27 @@ class Player {
 
    boolean hasWon(int coinsToWin) {
       return coins == coinsToWin;
+   }
+}
+
+class QuestionDeck {
+   private final Map<String, LinkedList<String>> questionsByCategory = new LinkedHashMap<>();
+
+   QuestionDeck(int maxQuestions) {
+      questionsByCategory.put("Pop", new LinkedList<>());
+      questionsByCategory.put("Science", new LinkedList<>());
+      questionsByCategory.put("Sports", new LinkedList<>());
+      questionsByCategory.put("Rock", new LinkedList<>());
+
+      for (int i = 0; i < maxQuestions; i++) {
+         questionsByCategory.get("Pop").addLast("Pop Question " + i);
+         questionsByCategory.get("Science").addLast("Science Question " + i);
+         questionsByCategory.get("Sports").addLast("Sports Question " + i);
+         questionsByCategory.get("Rock").addLast("Rock Question " + i);
+      }
+   }
+
+   void askQuestion(String category) {
+      System.out.println(questionsByCategory.get(category).removeFirst());
    }
 }
