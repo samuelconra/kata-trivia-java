@@ -72,36 +72,13 @@ public class Game implements IGame {
       if (currentPlayer().inPenaltyBox) {
          if (isGettingOutOfPenaltyBox) {
             currentPlayer().exitPenaltyBox();
-            System.out.println("Answer was correct!!!!");
-            currentPlayer().addCoin();
-            System.out.println(currentPlayer().name
-                               + " now has "
-                               + currentPlayer().coins
-                               + " Gold Coins.");
-
-            boolean winner = didPlayerWin();
-            nextPlayer();
-
-            return winner;
+            return rewardPlayerAndCheckWinner();
          } else {
             nextPlayer();
             return true;
          }
-
-
       } else {
-
-         System.out.println("Answer was correct!!!!");
-         currentPlayer().addCoin();
-         System.out.println(currentPlayer().name
-                            + " now has "
-                            + currentPlayer().coins
-                            + " Gold Coins.");
-
-         boolean winner = didPlayerWin();
-         nextPlayer();
-
-         return winner;
+         return rewardPlayerAndCheckWinner();
       }
    }
 
@@ -134,6 +111,20 @@ public class Game implements IGame {
                            + currentPlayer().position);
       System.out.println("The category is " + currentCategory());
       deck.askQuestion(currentCategory());
+   }
+
+   private boolean rewardPlayerAndCheckWinner() {
+      System.out.println("Answer was correct!!!!");
+      currentPlayer().addCoin();
+      System.out.println(currentPlayer().name
+                         + " now has "
+                         + currentPlayer().coins
+                         + " Gold Coins.");
+
+      boolean winner = didPlayerWin();
+      nextPlayer();
+
+      return winner;
    }
 }
 
