@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 // REFACTOR ME
 public class Game implements IGame {
-   ArrayList players = new ArrayList();
+   ArrayList<Player> players = new ArrayList<>();
    int[] positions = new int[6];
    int[] coins = new int[6];
    boolean[] inPenaltyBox = new boolean[6];
@@ -23,8 +23,6 @@ public class Game implements IGame {
    private static final int COINS_TO_WIN = 6;
 
    public Game() {
-      
-
       for (int i = 0; i < MAX_QUESTIONS_PER_CATEGORY; i++) {
          popQuestions.addLast("Pop Question " + i);
          scienceQuestions.addLast(("Science Question " + i));
@@ -45,7 +43,7 @@ public class Game implements IGame {
       positions[howManyPlayers()] = 1;
       coins[howManyPlayers()] = 0;
       inPenaltyBox[howManyPlayers()] = false;
-      players.add(playerName);
+      players.add(new Player(playerName));
 
       System.out.println(playerName + " was added");
       System.out.println("They are player number " + players.size());
@@ -57,24 +55,24 @@ public class Game implements IGame {
    }
 
    public void roll(int roll) {
-      System.out.println(players.get(currentPlayer) + " is the current player");
+      System.out.println(players.get(currentPlayer).name + " is the current player");
       System.out.println("They have rolled a " + roll);
 
       if (inPenaltyBox[currentPlayer]) {
          if (roll % 2 != 0) {
             isGettingOutOfPenaltyBox = true;
 
-            System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+            System.out.println(players.get(currentPlayer).name + " is getting out of the penalty box");
             positions[currentPlayer] = positions[currentPlayer] + roll;
             if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
 
-            System.out.println(players.get(currentPlayer)
+            System.out.println(players.get(currentPlayer).name
                                + "'s new location is "
                                + positions[currentPlayer]);
             System.out.println("The category is " + currentCategory());
             askQuestion();
          } else {
-            System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+            System.out.println(players.get(currentPlayer).name + " is not getting out of the penalty box");
             isGettingOutOfPenaltyBox = false;
          }
 
@@ -83,7 +81,7 @@ public class Game implements IGame {
          positions[currentPlayer] = positions[currentPlayer] + roll;
          if (positions[currentPlayer] > BOARD_SIZE) positions[currentPlayer] = positions[currentPlayer] - BOARD_SIZE;
 
-         System.out.println(players.get(currentPlayer)
+         System.out.println(players.get(currentPlayer).name
                             + "'s new location is "
                             + positions[currentPlayer]);
          System.out.println("The category is " + currentCategory());
@@ -122,7 +120,7 @@ public class Game implements IGame {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");
             coins[currentPlayer]++;
-            System.out.println(players.get(currentPlayer)
+            System.out.println(players.get(currentPlayer).name
                                + " now has "
                                + coins[currentPlayer]
                                + " Gold Coins.");
@@ -141,7 +139,7 @@ public class Game implements IGame {
 
          System.out.println("Answer was corrent!!!!");
          coins[currentPlayer]++;
-         System.out.println(players.get(currentPlayer)
+         System.out.println(players.get(currentPlayer).name
                             + " now has "
                             + coins[currentPlayer]
                             + " Gold Coins.");
@@ -155,7 +153,7 @@ public class Game implements IGame {
 
    public boolean wrongAnswer() {
       System.out.println("Question was incorrectly answered");
-      System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
+      System.out.println(players.get(currentPlayer).name + " was sent to the penalty box");
       inPenaltyBox[currentPlayer] = true;
 
       nextPlayer();
