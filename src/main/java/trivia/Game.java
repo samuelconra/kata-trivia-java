@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 public class Game implements IGame {
    ArrayList<Player> players = new ArrayList<>();
 
-   QuestionDeck deck = new QuestionDeck(MAX_QUESTIONS_PER_CATEGORY);
+   QuestionDeck deck = new QuestionDeck(MAX_QUESTIONS_PER_CATEGORY, CATEGORIES);
 
    int currentPlayer = 0;
    boolean isGettingOutOfPenaltyBox;
@@ -16,6 +16,7 @@ public class Game implements IGame {
    private static final int MAX_QUESTIONS_PER_CATEGORY = 50;
    private static final int BOARD_SIZE = 12;
    private static final int COINS_TO_WIN = 6;
+   private static final String[] CATEGORIES = {"Pop", "Science", "Sports", "Rock"};
 
    public boolean hasEnoughPlayers() {
       return (howManyPlayers() >= 2);
@@ -56,8 +57,7 @@ public class Game implements IGame {
    }
 
    private String currentCategory() {
-      String[] categories = {"Pop", "Science", "Sports", "Rock"};
-      return categories[(currentPlayer().position - 1) % 4];
+      return CATEGORIES[(currentPlayer().position - 1) % CATEGORIES.length];
    }
 
    public boolean handleCorrectAnswer() {
@@ -154,17 +154,15 @@ class Player {
 class QuestionDeck {
    private final Map<String, LinkedList<String>> questionsByCategory = new LinkedHashMap<>();
 
-   QuestionDeck(int maxQuestions) {
-      questionsByCategory.put("Pop", new LinkedList<>());
-      questionsByCategory.put("Science", new LinkedList<>());
-      questionsByCategory.put("Sports", new LinkedList<>());
-      questionsByCategory.put("Rock", new LinkedList<>());
+   QuestionDeck(int maxQuestions, String[] categories) {
+      for (String category : categories) {
+         questionsByCategory.put(category, new LinkedList<>());
+      }
 
       for (int i = 0; i < maxQuestions; i++) {
-         questionsByCategory.get("Pop").addLast("Pop Question " + i);
-         questionsByCategory.get("Science").addLast("Science Question " + i);
-         questionsByCategory.get("Sports").addLast("Sports Question " + i);
-         questionsByCategory.get("Rock").addLast("Rock Question " + i);
+         for (String category : categories) {
+            questionsByCategory.get(category).addLast(category + " Question " + i);
+         }
       }
    }
 
