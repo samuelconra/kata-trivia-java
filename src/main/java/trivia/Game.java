@@ -16,7 +16,7 @@ public class Game implements IGame {
    private static final int MAX_QUESTIONS_PER_CATEGORY = 50;
    private static final int BOARD_SIZE = 12;
    private static final int COINS_TO_WIN = 6;
-   private static final String[] CATEGORIES = {"Pop", "Science", "Sports", "Rock"};
+   private static final String[] CATEGORIES = {"Pop", "Science", "Sports", "Rock", "Geography"};
 
    public boolean hasEnoughPlayers() {
       return (howManyPlayers() >= 2);

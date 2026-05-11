@@ -79,3 +79,32 @@ El juego termina cuando un jugador alcanza exactamente 6 Gold Coins.
 5. Extraer la lógica de los mazos de preguntas hacia una nueva abstracción QuestionDeck.
 6. Simplificar la lógica de turno (roll y respuestas) para que se lea de forma natural, reduciendo la anidación.
 7. Corregir el typo y el bug en ambas clases (Game y GameOld) de manera controlada.
+
+---
+
+## Bloque 4
+## Paso 4.1 — Retrospectiva
+
+### Sobre la técnica del Golden Master:
+
+#### 1. ¿En qué momento te sentiste seguro de que el Golden Master cubría lo suficiente?
+Al comprender que el test ejecuta 10,000 partidas con semillas fijas predecibles, lo que estadísticamente garantiza que se exploran casi todas las combinaciones posibles de turnos, posiciones y estados del juego.
+
+#### 2. ¿Hubo algún cambio que el Golden Master no pudo detectar como peligroso? ¿Cuál?
+Sí, la corrección del bug de la "Penalty Box" (Cárcel). El Golden Master no detectó esto porque GameOld.java también tenía el error. El test asume que la versión original es perfecta, lo cual es la mayor trampa de esta técnica.
+
+#### 3. ¿Por qué crees que el README dice que no debemos escribir tests unitarios durante la refactorización? ¿Estás de acuerdo?
+Estoy de acuerdo. El código original estaba tan acoplado que instanciar una partida específica para un test unitario habría requerido trucos sucios (como acceder a variables privadas o entender los arreglos paralelos). Escribir tests unitarios sobre código fuertemente acoplado es muy costoso y esos tests se rompen apenas cambias la estructura. Es mejor usar el Golden Master, limpiar el diseño, y luego escribir tests unitarios limpios sobre las nuevas clases (como Player o QuestionDeck).
+
+
+### Sobre la refactorización:
+
+#### 1. ¿Qué olor de código fue el más difícil de eliminar? ¿Por qué?
+Los arreglos paralelos indexados por currentPlayer. Requirió crear una nueva estructura (Player), cambiar el tipo de la lista y migrar campo por campo con extremo cuidado para no perder la sincronización del estado.
+
+#### 2. ¿Qué refactorización manual (no automática del IDE) fue la más arriesgada?
+La extracción de la clase QuestionDeck y la refactorización de roll() para eliminar la duplicación de movimiento, ya que implicó borrar mucho código y confiar en los nuevos métodos.
+
+#### 3. ¿Cómo podría mejorarse el diseño para que el próximo cambio de requisito sea más fácil?
+Precisamente la modificación que acabamos de hacer: Desacoplar las categorías en un solo arreglo estático e iterar sobre él en la creación de mazos. Esto nos preparó para escalar el juego sin modificar la lógica interna.
+
